@@ -1,6 +1,11 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"blog/pkg/html"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 type Controller struct{}
 
@@ -9,8 +14,7 @@ func New() *Controller {
 }
 
 func (ctrl *Controller) Index(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "Hello World!",
+	html.Render(c, http.StatusOK, "modules/home/view/home", gin.H{
+		"title": "Home Page",
 	})
-	//9:03
 }
