@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    container_name: phpmyadmin
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db  # ← Fixed: changed from 'mysql' to 'db'
+      MYSQL_ROOT_PASSWORD: root
+      UPLOAD_LIMIT: 20000M
+    networks:
+      - oop
+
+  db:
+    image: mysql:8.0.13
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "4306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql  # ← Fixed path
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: db
+    command: --default-authentication-plugin=mysql_native_password  # ← Added for MySQL 8 compatibility
+    networks:
+      - oop
+
+  app:
+    build: .
+    container_name: blog
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_NAME=blog
+      - ENVIRONMENT=docker
+    depends_on:
+      - db
+    networks:
+      - oop
+
+volumes:
+  mysql_data:
+
+networks:
+  oop:
+    driver: bridge
