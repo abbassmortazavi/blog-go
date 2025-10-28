@@ -4,11 +4,11 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always
-    container_name: phpmyadmin
+    container_name: phpmyadmingo
     depends_on:
       - db
     ports:
-      - "8081:80"
+      - "8083:80"
     environment:
       PMA_HOST: db  # ← Fixed: changed from 'mysql' to 'db'
       MYSQL_ROOT_PASSWORD: root
