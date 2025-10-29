@@ -3,6 +3,8 @@ package controllers
 import (
 	ArticleRepository "blog/internal/modules/article/repositories"
 	"blog/internal/modules/article/services"
+	"blog/pkg/html"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,11 +22,14 @@ func New() *Controller {
 }
 
 func (ctrl *Controller) Index(c *gin.Context) {
-	/*html.Render(c, http.StatusOK, "modules/home/view/home", gin.H{
-		"title": "Home Page",
-	})*/
-
-	c.JSON(200, gin.H{
-		"articles": ctrl.articleService.GetFeaturedArticles(),
+	html.Render(c, http.StatusOK, "modules/home/view/home", gin.H{
+		"title":    "Home Page",
+		"featured": ctrl.articleService.GetFeaturedArticles(),
+		"stories":  ctrl.articleService.GetFeaturedArticles(),
 	})
+
+	/*c.JSON(200, gin.H{
+		"featured": ctrl.articleService.GetFeaturedArticles(),
+		"stories":  ctrl.articleService.GetFeaturedArticles(),
+	})*/
 }
