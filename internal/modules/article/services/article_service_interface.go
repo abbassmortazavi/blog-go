@@ -8,4 +8,5 @@ import (
 type ArticleServiceInterface interface {
 	GetFeaturedArticles() responses.Articles
 	GetStoriesArticles() []models.Article
+	Find(id int) (responses.Article, error)
 }

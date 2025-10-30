@@ -2,7 +2,7 @@ package controllers
 
 import (
 	ArticleRepository "blog/internal/modules/article/repositories"
-	"blog/internal/modules/article/services"
+	ArticleService "blog/internal/modules/article/services"
 	"blog/pkg/html"
 	"net/http"
 
@@ -11,13 +11,13 @@ import (
 
 type Controller struct {
 	articleRepository ArticleRepository.ArticleRepositoryInterface
-	articleService    services.ArticleServiceInterface
+	articleService    ArticleService.ArticleServiceInterface
 }
 
 func New() *Controller {
 	return &Controller{
 		articleRepository: ArticleRepository.New(),
-		articleService:    services.New(),
+		articleService:    ArticleService.New(),
 	}
 }
 

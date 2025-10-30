@@ -1,0 +1,26 @@
+{{ define "templates/html/errors/404" }}
+{{- template "templates/layouts/html/head" . -}}
+<!-- Begin Nav
+= = = = = == = = = = = = = = == = = = = = = = = == = = = = = = = = == = = = = = = = = == = = = -->
+{{- template "templates/layouts/html/navbar" . -}}
+<!-- End Nav
+= = = = = == = = = = = = = = == = = = = = = = = == = = = = = = = = == = = = = = = = = == = = = -->
+
+<!-- Begin Site Title
+= = = = = = = == = = = = = = = = == = = = = = = = = == = = = = = = = = == = = = = = = = = == = -->
+{{- template "templates/layouts/html/header" . -}}
+<!-- End Site Title
+= == = = = = = = = = == = = = = = = = = == = = = = = = = = == = = = = = = = = == = = = = = = = -->
+
+
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <div class="error-message">{{.message}}</div>
+    </div>
+
+
+{{ template "templates/layouts/html/footer" .}}
+
+
+{{ template "templates/layouts/html/foot" .}}
+{{ end }}
