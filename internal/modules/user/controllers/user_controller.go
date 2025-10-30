@@ -32,3 +32,15 @@ func (controller *Controller) HandelRegister(c *gin.Context) {
 		"message": "register success",
 	})
 }
+
+func (controller *Controller) Login(c *gin.Context) {
+	html.Render(c, http.StatusOK, "modules/user/view/login", gin.H{
+		"title": "Login",
+	})
+}
+
+func (controller *Controller) HandelLogin(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "login success",
+	})
+}
