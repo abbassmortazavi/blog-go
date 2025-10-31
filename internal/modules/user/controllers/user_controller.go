@@ -4,6 +4,7 @@ import (
 	userRepository "blog/internal/modules/user/repositories"
 	"blog/internal/modules/user/requests"
 	userService "blog/internal/modules/user/services"
+	"blog/pkg/errors"
 	"blog/pkg/html"
 	"net/http"
 
@@ -31,6 +32,12 @@ func (controller *Controller) Register(c *gin.Context) {
 func (controller *Controller) HandelRegister(c *gin.Context) {
 	var request requests.RegisterRequest
 	if err := c.ShouldBind(&request); err != nil {
+		errors.Init()
+		errors.SetErrorList(err)
+		c.JSON(http.StatusOK, gin.H{
+			"code": http.StatusBadRequest,
+			"err":  errors.GetErrorList(),
+		})
 		c.Redirect(http.StatusFound, "/register")
 		return
 	}
