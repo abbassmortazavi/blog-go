@@ -11,5 +11,6 @@ import (
 func Render(c *gin.Context, code int, name string, data gin.H) {
 	data["app_name"] = viper.GetString("APPNAME")
 	data["ERRORS"] = convertors.StringToMap(session.Flash(c, "errors"))
+	data["OLD"] = convertors.StringToUrlValues(session.Flash(c, "old"))
 	c.HTML(code, name, data)
 }

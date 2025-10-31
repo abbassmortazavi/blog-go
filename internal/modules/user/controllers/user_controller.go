@@ -7,6 +7,7 @@ import (
 	"blog/pkg/convertors"
 	"blog/pkg/errors"
 	"blog/pkg/html"
+	"blog/pkg/old"
 	"blog/pkg/session"
 	"net/http"
 
@@ -37,6 +38,11 @@ func (controller *Controller) HandelRegister(c *gin.Context) {
 		errors.Init()
 		errors.SetErrorList(err)
 		session.Set(c, "errors", convertors.MapToString(errors.GetErrorList()))
+
+		old.Init()
+		old.Set(c)
+		session.Set(c, "old", convertors.UrlValuesToString(old.Get()))
+
 		c.Redirect(http.StatusFound, "/register")
 		return
 	}
