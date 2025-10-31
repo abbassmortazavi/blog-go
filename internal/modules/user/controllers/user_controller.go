@@ -4,8 +4,10 @@ import (
 	userRepository "blog/internal/modules/user/repositories"
 	"blog/internal/modules/user/requests"
 	userService "blog/internal/modules/user/services"
+	"blog/pkg/convertors"
 	"blog/pkg/errors"
 	"blog/pkg/html"
+	"blog/pkg/session"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -34,10 +36,7 @@ func (controller *Controller) HandelRegister(c *gin.Context) {
 	if err := c.ShouldBind(&request); err != nil {
 		errors.Init()
 		errors.SetErrorList(err)
-		c.JSON(http.StatusOK, gin.H{
-			"code": http.StatusBadRequest,
-			"err":  errors.GetErrorList(),
-		})
+		session.Set(c, "errors", convertors.MapToString(errors.GetErrorList()))
 		c.Redirect(http.StatusFound, "/register")
 		return
 	}
