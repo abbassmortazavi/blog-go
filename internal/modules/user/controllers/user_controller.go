@@ -2,6 +2,7 @@ package controllers
 
 import (
 	userRepository "blog/internal/modules/user/repositories"
+	"blog/internal/modules/user/requests"
 	userService "blog/internal/modules/user/services"
 	"blog/pkg/html"
 	"net/http"
@@ -28,8 +29,24 @@ func (controller *Controller) Register(c *gin.Context) {
 }
 
 func (controller *Controller) HandelRegister(c *gin.Context) {
+	var request requests.RegisterRequest
+	if err := c.ShouldBind(&request); err != nil {
+		c.Redirect(http.StatusFound, "/register")
+		return
+	}
+
+	user, err := controller.userService.Register(request)
+	if err != nil {
+		c.Redirect(http.StatusFound, "/register")
+		return
+	}
+	/*html.Render(c, http.StatusOK, "modules/user/view/register", gin.H{
+		"title": "Register",
+	})*/
+
 	c.JSON(200, gin.H{
 		"message": "register success",
+		"user":    user,
 	})
 }
 
